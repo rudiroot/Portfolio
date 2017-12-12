@@ -1,0 +1,134 @@
+@charset "UTF-8";
+/* CSS Document */
+*{
+	margin:0;
+	padding:0;
+}
+@font-face {
+    font-family: 'playfair_displayregular';
+    src: url('playfairdisplay-regular-webfont.woff2') format('woff2'),
+		 url('playfairdisplay-regular-webfont.woff') format('woff');
+	font-weight: 300; 
+
+    font-weight: normal;
+    font-style: normal;
+	-webkit-font-smoothing: antialiased; 
+}
+
+body{	
+	background-color: #111111;
+	color:white;	
+}
+
+h1 {
+	font-family: 'playfair_displayregular';	
+	font-size:80px;
+	font-weight:300;
+}
+
+p {
+  	font-family: "sofia-pro-soft",sans-serif;
+	font-weight:100;
+	font-size:28px;
+	line-height:40px;
+  }
+
+a {
+	border:1px solid white;
+	color: white;
+	text-decoration: none;
+	font-family: "sofia-pro-soft",sans-serif;
+	font-weight:100;
+	font-size:20px;
+	line-height: 30px;
+	padding:15px 30px 15px 30px;
+	margin-top:80px;
+	position: relative;
+	transition: color 0.2s linear 0.2s;
+}
+
+a span{
+	transition: width 0.15s linear 0.2s , height 0.15s linear 0.0s , top 0.15s linear 0.0s;
+	position: absolute;
+	left:0px;
+	top:30px;
+	width:16px;
+	height:1px;
+	background-color:white;
+	z-index:-1;
+}
+
+a:hover span{
+	width:100%;
+	height:100%;
+	top:0px;
+	transition: width 0.15s linear 0.0s , height 0.15s linear 0.2s , top 0.15s linear 0.2s;	
+}
+
+a:hover{
+	color:black;
+}
+
+.bg-section{
+	background-image:url('../images/bg-image.png');
+	background-position: center center;	
+	background-size:cover;
+	height:966px;
+	margin-top:100px;
+}
+
+.logo{
+	width:120px;
+	height:29px;
+	background-image:url('../images/logo.svg');
+	background-size:100%;
+	background-position: center center;
+	background-repeat: no-repeat;
+	position: absolute;
+	top:80px;
+	left:80px;
+}
+
+.xs-bottom{
+	margin-bottom:40px;
+}
+
+.s-top{
+	margin-top:80px;
+}
+
+.m-top{
+	margin-top:160px;
+}
+
+.flex-container{
+	display: flex;
+	justify-content: flex-end;
+}
+
+.text-box{
+	align-self: flex-end;
+	width:calc(50% - 80px);
+	margin-right:80px;
+}
+
+.headline-subline-divide{
+	width:60px;
+	margin:40px 0px 40px -20px;
+	height:1px;
+	border-style: solid;
+	color:white;
+	background-color: white;
+}
+
+.logo-box{
+	display: flex;
+	width:80%;
+	max-width: 773px;
+	justify-content: space-between;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:300px;
+}
+
+
