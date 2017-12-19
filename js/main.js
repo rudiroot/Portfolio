@@ -1,72 +1,49 @@
-
-var sliderEl = document.querySelector('.slider');
-var slideCount = 3;
-var activeSlide = 0; // NEW: the current slide # (0 = first)
-
-var sliderManager = new Hammer.Manager(sliderEl);
-sliderManager.add( new Hammer.Pan({ threshold: 0, pointers: 0 }) );
-sliderManager.on('pan', function(e) {
-  var percentage = 100 / (window.innerWidth/2) * e.deltaX   ;
+class Slider { 
+  constructor(slideAmount, sliderContainer, nextButton, prevButton){ 
+    this.slideAmount = slideAmount; 
+    this.slides = sliderContainer;
+    this.nextButton = nextButton;
+    this.prevButton = prevButton;
+    this.slideAmount = 3;
+    this.currentSlide = 1;
+    this.slideStartPoint = 1;  
+    this.slideWidth = this.slides.getBoundingClientRect().width;
+    // we need to bind the the functions which we call in the event listeners. When those functions are called they have a different scope. With the binding we do we tell them in which scope they should run, in this case `this`
+    this.nextSlide = this.nextSlide.bind(this);
+    this.prevSlide = this.prevSlide.bind(this);
+    this.startEventListeners();
+  }
   
-  var transformPercentage = percentage - 100 / slideCount * activeSlide; // NEW
-  console.log(transformPercentage);
-  sliderEl.style.transform = 'translateX( ' + transformPercentage + '% )';
-  if(e.isFinal) { // NEW: this only runs on event end
-    if(percentage < -80)
-      goToSlide(activeSlide + 1);
-    else if(percentage > 0)
-      goToSlide(activeSlide - 1);
-    else
-      goToSlide(activeSlide);
+  nextSlide() { 
+    if (this.currentSlide < this.slideAmount) {
+      this.currentSlide++;
+      this.moveToCurrentSlide();
+    }
   }
-});
-
-// NEW: function that changes the slide
-var goToSlide = function(number) {
-  if(number < 0)
-    activeSlide = 0;
-  else if(number > slideCount - 1)
-    activeSlide = slideCount - 1
-  else
-    activeSlide = number;
-
- var percentage = -(100 / slideCount) * activeSlide;
- sliderEl.style.transform = 'translateX(' + percentage + '%)';
-};
-
-
-/*
-
-var sliderEl = document.querySelector('.slider');
-var slideCount = 3;
-var activeSlide = 0; // NEW: the current slide # (0 = first)
-
-var sliderManager = new Hammer.Manager(sliderEl);
-sliderManager.add( new Hammer.Pan({ threshold: 0, pointers: 0 }) );
-sliderManager.on('pan', function(e) {
-  var percentage = 100 / slideCount * e.deltaX / window.innerWidth;
-  var transformPercentage = percentage - 100 / slideCount * activeSlide; // NEW
-  sliderEl.style.transform = 'translateX( ' + transformPercentage + '% )';
-  if(e.isFinal) { // NEW: this only runs on event end
-    if(percentage < 0)
-      goToSlide(activeSlide + 1);
-    else if(percentage > 0)
-      goToSlide(activeSlide - 1);
-    else
-      goToSlide(activeSlide);
+  
+  prevSlide() { 
+    if (this.currentSlide > this.slideStartPoint) {
+      this.currentSlide--;
+      this.moveToCurrentSlide();
+    }
   }
-});
+  
+  moveToCurrentSlide() { 
+    const xPositionCurrentSlide = ((this.currentSlide * this.slideWidth) - this.slideWidth) * -1;
+    this.slides.style.transform = `translateX(${xPositionCurrentSlide}px)`;  
+  }
+  
+  startEventListeners(){ 
+    this.nextButton.addEventListener('click', this.nextSlide);
+    this.prevButton.addEventListener('click', this.prevSlide);
 
-// NEW: function that changes the slide
-var goToSlide = function(number) {
-  if(number < 0)
-    activeSlide = 0;
-  else if(number > slideCount - 1)
-    activeSlide = slideCount - 1
-  else
-    activeSlide = number;
+    // here i'm using a different approach to handle the scope for the function. it's a new way to declare functions, when we do it in this way the function is still in the scope of this
+    window.addEventListener('resize', event => {
+      this.slideWidth = this.slides.getBoundingClientRect().width;
+      this.moveToCurrentSlide();
+    });
+  }  
+  
+}
 
- var percentage = -(100 / slideCount) * activeSlide;
- sliderEl.style.transform = 'translateX(' + percentage + '%)';
-};
-*/
+const mySlider = new Slider(3, document.getElementById('slides-element'), document.getElementById('next'), document.getElementById('prev'));
